@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>FX board</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; }
+      td, th { padding: 0.3rem 1rem; text-align: right; }
+      #status { color: #666; }
+    </style>
+  </head>
+  <body>
+    <h1>FX board</h1>
+    <p id="status">connecting...</p>
+    <table>
+      <thead><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Seq</th></tr></thead>
+      <tbody id="rates"></tbody>
+    </table>
+    <script type="module" src="./board.ts"></script>
+  </body>
+</html>

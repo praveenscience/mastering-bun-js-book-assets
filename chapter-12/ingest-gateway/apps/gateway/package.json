@@ -1,0 +1,14 @@
+{
+  "name": "@igw/gateway",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun src/main.ts",
+    "create-key": "bun src/create-key.ts"
+  },
+  "dependencies": {
+    "@igw/protocol": "workspace:*",
+    "@igw/store": "workspace:*"
+  }
+}

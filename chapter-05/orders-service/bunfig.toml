@@ -1,0 +1,3 @@
+[test]
+# Fail "bun test --coverage" when any file drops below 90%.
+coverageThreshold = { lines = 0.9, functions = 0.9 }

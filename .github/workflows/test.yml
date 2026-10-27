@@ -1,0 +1,50 @@
+# Runs every chapter project's type check and tests on Bun 1.4.4.
+name: test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  bun:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - chapter-01/hello-bun
+          - chapter-02/scaffold
+          - chapter-02/testing
+          - chapter-02/env-demo
+          - chapter-04/acme-shop
+          - chapter-05/orders-service
+          - chapter-06/fx-board
+          - chapter-06/frameworks
+          - chapter-07/event-files
+          - chapter-08/event-store
+          - chapter-08/orm-compare
+          - chapter-09/pixel-kernels
+          - chapter-10/billing-api
+          - chapter-10/billing-next
+          - chapter-10/edge-router
+          - chapter-11/notify-service
+          - chapter-12/ingest-gateway
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      # Chapter 9 builds a Node-API addon against Node's headers, and
+      # Chapter 10 runs its tests on Node.js as well.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: scripts/test-project.sh ${{ matrix.project }}
+  node-before:
+    # Chapter 10's starting point is a plain Node.js project.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install && npx jest --runInBand
+        working-directory: chapter-10/billing-api-before

@@ -1,0 +1,6 @@
+replicas: 3
+payments:
+  url: https://payments.example.com
+cors:
+  allowedOrigins:
+    - https://m.shop.example.com

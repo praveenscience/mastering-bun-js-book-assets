@@ -1,0 +1,17 @@
+{
+  "name": "install-timing",
+  "private": true,
+  "dependencies": {
+    "date-fns": "^4",
+    "drizzle-orm": "^0.44",
+    "hono": "^4",
+    "lodash-es": "^4",
+    "pino": "^9",
+    "zod": "^4"
+  },
+  "devDependencies": {
+    "prettier": "^3",
+    "typescript": "^7",
+    "vitest": "^3"
+  }
+}

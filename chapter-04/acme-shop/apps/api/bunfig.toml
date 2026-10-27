@@ -1,0 +1,4 @@
+preload = ["@acme/bun-plugins/register"]
+
+[test]
+preload = ["@acme/bun-plugins/register"]

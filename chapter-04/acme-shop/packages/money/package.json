@@ -1,0 +1,14 @@
+{
+  "name": "@acme/money",
+  "version": "0.3.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "files": ["src"],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@acme/shared": "workspace:^"
+  }
+}

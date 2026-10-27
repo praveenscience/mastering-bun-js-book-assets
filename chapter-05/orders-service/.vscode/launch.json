@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "bun",
+      "request": "launch",
+      "name": "Debug current file",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false,
+      "watchMode": false
+    },
+    {
+      "type": "bun",
+      "request": "launch",
+      "name": "Debug the orders service",
+      "program": "src/server.ts",
+      "cwd": "${workspaceFolder}",
+      "env": { "PORT": "3000" }
+    },
+    {
+      "type": "bun",
+      "request": "attach",
+      "name": "Attach to bun --inspect",
+      "url": "ws://localhost:6499/orders"
+    }
+  ]
+}

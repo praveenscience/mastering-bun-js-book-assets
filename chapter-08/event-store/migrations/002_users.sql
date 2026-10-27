@@ -1,0 +1,5 @@
+CREATE TABLE users (
+  id         TEXT PRIMARY KEY,
+  first_seen INTEGER NOT NULL,
+  events     INTEGER NOT NULL DEFAULT 0
+) STRICT;

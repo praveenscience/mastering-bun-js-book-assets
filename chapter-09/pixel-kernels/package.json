@@ -1,0 +1,15 @@
+{
+  "name": "pixel-kernels",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:native": "./build.sh",
+    "test": "bun test",
+    "typecheck": "bun check",
+    "bench": "bun bench/blur.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4"
+  }
+}

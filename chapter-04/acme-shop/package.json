@@ -1,0 +1,19 @@
+{
+  "name": "acme-shop",
+  "private": true,
+  "workspaces": {
+    "packages": ["apps/*", "packages/*"],
+    "catalog": {
+      "zod": "^4.1.0",
+      "@types/bun": "^1.4.4"
+    }
+  },
+  "scripts": {
+    "build": "bun --filter '*' build",
+    "test": "bun --filter '*' test",
+    "typecheck": "bun check"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:"
+  }
+}

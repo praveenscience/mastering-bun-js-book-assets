@@ -1,0 +1,10 @@
+{
+  "backends": {
+    "legacy": "http://127.0.0.1:3100",
+    "next": "http://127.0.0.1:3200"
+  },
+  "routes": [
+    { "prefix": "/reports/", "backend": "next", "percent": 0,
+      "shadow": true }
+  ]
+}

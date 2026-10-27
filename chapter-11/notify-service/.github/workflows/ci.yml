@@ -1,0 +1,33 @@
+# Every change: locked install, audit, types, tests, a load test
+# with a latency target, and an image built from a pinned base.
+name: ci
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun audit --audit-level=high
+      - run: bun check
+      - run: bun test
+      - name: Load test against the p99 target
+        env:
+          API_TOKEN: ci-only-token
+          LOG_LEVEL: warn
+        run: |
+          bun src/main.ts &
+          sleep 1
+          bun ../loadtest/load.ts --url http://127.0.0.1:3000/events \
+            --post --rate 5000 --seconds 20 --p99 20 --max-errors 0.1
+  image:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t notify-service:${{ github.sha }} .

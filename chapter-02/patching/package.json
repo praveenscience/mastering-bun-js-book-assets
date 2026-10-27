@@ -1,0 +1,7 @@
+{
+  "name": "chapter-02-patching",
+  "private": true,
+  "dependencies": {
+    "ms": "2.1.3"
+  }
+}

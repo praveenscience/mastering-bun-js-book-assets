@@ -1,0 +1,7 @@
+# Example only: replace the URLs with your organization's registry.
+[install]
+registry = "https://artifactory.example.com/api/npm/npm-remote/"
+
+[install.scopes."@acme"]
+url = "https://artifactory.example.com/api/npm/npm-internal/"
+token = "$NPM_TOKEN"

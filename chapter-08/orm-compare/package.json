@@ -1,0 +1,22 @@
+{
+  "name": "orm-compare",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "db:generate": "drizzle-kit generate && bun run --bun --env-file=.env prisma generate",
+    "test": "bun test",
+    "bench": "bun bench/compare.ts",
+    "typecheck": "bun check"
+  },
+  "dependencies": {
+    "@prisma/adapter-libsql": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "drizzle-orm": "0.45.4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "drizzle-kit": "0.31.11",
+    "prisma": "7.10.1"
+  }
+}

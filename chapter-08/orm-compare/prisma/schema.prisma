@@ -1,0 +1,20 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "./generated"
+  engineType = "client"
+  runtime    = "bun"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Event {
+  id     Int    @id @default(autoincrement())
+  ts     Int
+  type   String
+  userId String @map("user_id")
+  ms     Int
+
+  @@map("events")
+}

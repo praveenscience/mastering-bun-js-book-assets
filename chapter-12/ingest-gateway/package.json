@@ -1,0 +1,15 @@
+{
+  "name": "ingest-gateway",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*", "tools/*"],
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "bun check",
+    "start": "bun --filter @igw/gateway start",
+    "sink": "bun --filter @igw/sink start"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4"
+  }
+}

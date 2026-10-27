@@ -1,0 +1,22 @@
+# syntax=docker/dockerfile:1
+# Single-binary image: bun build --compile produces one executable
+# that already contains the runtime. It needs glibc, so the base is
+# distroless/cc rather than scratch.
+
+FROM oven/bun:1.4.4-slim AS build
+WORKDIR /app
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+COPY tsconfig.json ./
+COPY src ./src
+COPY test ./test
+RUN bun check && bun test
+RUN bun build --compile --minify --bytecode --format=esm \
+      src/main.ts --outfile dist/notify-service
+
+FROM gcr.io/distroless/cc-debian12:nonroot
+WORKDIR /app
+COPY --from=build /app/dist/notify-service ./notify-service
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000
+EXPOSE 3000
+ENTRYPOINT ["/app/notify-service"]

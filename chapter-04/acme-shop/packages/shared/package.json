@@ -1,0 +1,13 @@
+{
+  "name": "@acme/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "files": ["src"],
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  }
+}

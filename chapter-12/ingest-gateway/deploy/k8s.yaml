@@ -1,0 +1,83 @@
+# The gateway keeps its outbox in SQLite on a persistent volume, so
+# it runs as a StatefulSet with exactly one writer per volume. Scale
+# out by sharding producers across several gateways, or move the
+# store to PostgreSQL (see "Hardening and Next Steps").
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ingest-gateway
+spec:
+  serviceName: ingest-gateway
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingest-gateway
+  template:
+    metadata:
+      labels:
+        app: ingest-gateway
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: gateway
+          image: registry.example.com/ingest-gateway:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_PATH
+              value: /data/gateway.db
+            - name: SINK_URL
+              value: http://warehouse-ingest.data.svc/ingest
+            - name: DRAIN_SECONDS
+              value: "5"
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "1"
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingest-gateway
+spec:
+  selector:
+    app: ingest-gateway
+  ports:
+    - port: 80
+      targetPort: 8080

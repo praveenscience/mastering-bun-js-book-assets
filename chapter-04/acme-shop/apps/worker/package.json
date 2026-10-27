@@ -1,0 +1,14 @@
+{
+  "name": "@acme/worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun src/worker.ts",
+    "build": "bun build src/worker.ts --outdir dist --target bun"
+  },
+  "dependencies": {
+    "@acme/shared": "workspace:*",
+    "zod": "catalog:"
+  }
+}

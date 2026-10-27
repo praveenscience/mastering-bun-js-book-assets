@@ -1,0 +1,9 @@
+{
+  "name": "@igw/loadgen",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@igw/store": "workspace:*"
+  }
+}

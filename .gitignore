@@ -1,0 +1,12 @@
+node_modules/
+dist/
+chapter-07/event-files/data/
+*.db
+*.db-shm
+*.db-wal
+*.heapsnapshot
+snapshots-*/
+chapter-08/orm-compare/prisma/generated/
+chapter-09/pixel-kernels/native/build/
+chapter-09/pixel-kernels/native/rust/target/
+.DS_Store

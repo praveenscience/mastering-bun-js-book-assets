@@ -1,0 +1,14 @@
+{
+  "name": "event-store",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "bun check",
+    "bench": "bun bench/insert.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4"
+  }
+}

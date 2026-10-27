@@ -1,0 +1,9 @@
+service: orders
+replicas: 1
+payments:
+  url: http://localhost:4010
+  timeoutMs: 2000
+cors:
+  allowedOrigins:
+    - https://shop.example.com
+    - https://admin.example.com

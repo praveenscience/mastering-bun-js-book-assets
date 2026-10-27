@@ -1,0 +1,15 @@
+{
+  "name": "event-files",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun src/main.ts",
+    "test": "bun test",
+    "typecheck": "bun check",
+    "make-events": "bun scripts/make-events.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4"
+  }
+}

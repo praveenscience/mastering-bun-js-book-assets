@@ -1,0 +1,16 @@
+{
+  "name": "hello-bun",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

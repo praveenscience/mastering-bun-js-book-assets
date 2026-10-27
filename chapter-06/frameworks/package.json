@@ -1,0 +1,22 @@
+{
+  "name": "frameworks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "hono": "bun hono-app.ts",
+    "elysia": "bun elysia-app.ts",
+    "test": "bun test",
+    "typecheck": "bun check"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "1.4.9",
+    "@hono/zod-validator": "0.9.1",
+    "elysia": "1.4.30",
+    "hono": "4.13.14",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4"
+  }
+}

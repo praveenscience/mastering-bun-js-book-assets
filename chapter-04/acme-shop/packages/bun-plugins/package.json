@@ -1,0 +1,10 @@
+{
+  "name": "@acme/bun-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./csv": "./src/csv.ts",
+    "./register": "./src/register.ts"
+  }
+}

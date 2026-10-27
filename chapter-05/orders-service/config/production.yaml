@@ -1,0 +1,9 @@
+replicas: 3
+payments:
+  url: https://payments.example.com
+cors:
+  # Lists replace the base list, so repeat every origin here.
+  allowedOrigins:
+    - https://shop.example.com
+    - https://admin.example.com
+    - https://m.shop.example.com

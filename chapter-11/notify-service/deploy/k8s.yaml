@@ -1,0 +1,112 @@
+# Kubernetes manifests for notify-service. Values that must agree
+# with the code are checked by deploy/k8s.test.ts.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notify-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: notify-service
+  template:
+    metadata:
+      labels:
+        app: notify-service
+    spec:
+      # Must exceed DRAIN_SECONDS + SHUTDOWN_TIMEOUT_SECONDS.
+      terminationGracePeriodSeconds: 40
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: notify
+          image: registry.example.com/notify-service:1.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DRAIN_SECONDS
+              value: "5"
+            - name: SHUTDOWN_TIMEOUT_SECONDS
+              value: "25"
+            - name: API_TOKEN_FILE
+              value: /run/secrets/notify/api-token
+            - name: HEAP_SNAPSHOT_DIR
+              value: /tmp
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 3000
+            periodSeconds: 2
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: api-token
+              mountPath: /run/secrets/notify
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: api-token
+          secret:
+            secretName: notify-api-token
+        - name: tmp
+          emptyDir:
+            sizeLimit: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notify-service
+spec:
+  selector:
+    app: notify-service
+  ports:
+    - port: 80
+      targetPort: 3000
+---
+# ingress-nginx closes idle proxied connections after 60 seconds by
+# default, which drops quiet WebSockets. Raise the timeouts here.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notify-service
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: notify.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: notify-service
+                port:
+                  number: 80
